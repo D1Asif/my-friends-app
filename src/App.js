@@ -1,23 +1,37 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 import './App.css';
+import Friend from './components/Friend/Friend';
+import Data from "./data.json";
+
+
 
 function App() {
+  const [friends, setFriends] = useState([]);
+  const [cart, setCart] = useState([]);
+
+  useEffect(() => {
+    setFriends(Data);
+  }, [])
+  
+  const handleAddFriend = (friend) => {
+    let newFriends = [];
+    newFriends = [...cart, friend];
+    setCart(newFriends);
+  }
+  console.log(cart);
+
+  const totalSalary = cart.reduce((total, item) => total + item.salary, 0);
+  
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>My Friend App</h1>
+      <h3>Total Friends: {cart.length}</h3>
+      <h3>Total salary of my friends: {totalSalary}</h3>
+      {
+        friends.map(datum => <Friend friend={datum} handleAddFriend={handleAddFriend}></Friend>)
+      }
+      
     </div>
   );
 }
